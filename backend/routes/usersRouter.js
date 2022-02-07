@@ -52,16 +52,15 @@ router.patch("/users/update_user/:id", auth, updateUser);
 router.patch("/users/update_role/:id", auth, authAdmin, updateUserRole);
 // delete user
 router.delete("/users/delete_user/:id", auth, authAdmin, deleteUser);
-
-// create user detail
+// get info about user detail 
+router.get("/users/info_user_detail/:id", auth, getUserDetail);
+// get info about all user details 
+router.get("/users/info_all_user_details", auth, getAllUserDetails);
+// create user detail (ID User)
 router.post("/users/craete_user_detail/:id", auth, createUserDetail);
 // update user detail
 router.patch("/users/update_user_detail/:id", auth, updateUserDetail);
 // delete user detail
-router.delete("/users/delete_user_detail:id", auth, deleteUserDetail);
-// get info about user detail 
-router.get("/users/info_user_detail/:id", auth, getUserDetail);
-// get info about all user details
-router.get("/users/info_all_user_details", auth, getAllUserDetails);
+router.delete("/users/delete_user_detail/:id", auth, deleteUserDetail);
 
 export default router;

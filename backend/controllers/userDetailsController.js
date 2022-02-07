@@ -128,6 +128,7 @@ const getUserDetail = async (req, res) => {
 
 const getAllUserDetails = async (req, res) => {
     try {
+        //const {id} = req.params;
         const user = await Users.findById(req.user.id).populate("userDetails");
         return res.status(200).send({
             status: "success",

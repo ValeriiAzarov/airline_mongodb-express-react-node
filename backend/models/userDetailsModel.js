@@ -7,9 +7,8 @@ const userDetailsSchema = new mongoose.Schema({
         trim: true
     },
     passportValidity: {
-        type: String,
-        required: true,
-        trim: true
+        type: Date,
+        required: true
     },
     surname: {
         type: String,
@@ -23,13 +22,11 @@ const userDetailsSchema = new mongoose.Schema({
     },
     sex: {
         type: String,
-        required: true,
-        trim: true
+        required: true
     },
     birthdate: {
         type: Date,
-        required: true,
-        trim: true
+        required: true
     },   
     address: {
         type: String,
@@ -39,12 +36,11 @@ const userDetailsSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        trim: true
+        unique: true
     },
     phone: {
         type: String,
-        required: true,
-        trim: true
+        required: true
     },
     flights: [
         {
@@ -56,4 +52,5 @@ const userDetailsSchema = new mongoose.Schema({
     timestamps: true
 })
 
-export default mongoose.model("UserDetails", userDetailsSchema);
+//export default mongoose.model("UserDetails", userDetailsSchema);
+export default mongoose.models["UserDetails"] ? mongoose.model("UserDetails") : mongoose.model("UserDetails", userDetailsSchema);

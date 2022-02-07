@@ -4,9 +4,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import usersRouter from "./routes/usersRouter.js";
-import airlinesRouter from "./routes/airlinesRouter.js";
-import planesRouter from "./routes/planesRouter.js";
 import flightsRouter from "./routes/flightsRouter.js";
+import ticketsRouter from "./routes/ticketsRouter.js";
+import paymentsRouter from "./routes/paymentsRouter.js";
 import connectDB from "./config/database.js";
 
 const app = express();
@@ -19,12 +19,12 @@ app.use(cors());
 // routes
 // users
 app.use("/api", usersRouter);
-// airlines
-app.use("/api", airlinesRouter);
-// planes
-app.use("/api", planesRouter);
 // flights
 app.use("/api", flightsRouter);
+// tickets
+app.use("/api", ticketsRouter);
+// payments
+app.use("/api", paymentsRouter);
 
 // connection database
 connectDB();

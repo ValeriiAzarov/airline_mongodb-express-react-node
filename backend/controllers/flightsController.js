@@ -1,6 +1,4 @@
 import Flights from "../models/flightsModel.js";
-import Airlines from "../models/airlinesModel.js";
-import Planes from "../models/planesModel.js";
 import APIfeatures from "../utils/features/features.js";
 
 const createFlight = async (req, res) => {
@@ -11,25 +9,14 @@ const createFlight = async (req, res) => {
             townTo,
             dateOut,
             dateIn,
-            airlineId,
-            planeId
+            airline,
+            price,
+            count
         } = req.body;
-        if (!name || !townFrom || !townTo || !dateOut || !dateIn || !airlineId || !planeId) {
+        if (!name || !townFrom || !townTo || !dateOut || !dateIn || !airline || !price || !count) {
             return res.status(400).send({
                 message: "Please fill in all fields."
             });
-        }
-        const airline = await Airlines.findById(airlineId);
-        const plane = await Planes.findById(planeId);
-        if (!airline) {
-            return res.status(400).send({
-                message: "This airline does not exist."
-            });   
-        }
-        if (!plane) {
-            return res.status(400).send({
-                message: "This plane does not exist."
-            });   
         }
         const newFlight = new Flights({
             name,
@@ -38,7 +25,8 @@ const createFlight = async (req, res) => {
             dateOut,
             dateIn,
             airline,
-            plane
+            price,
+            count
         });
         await newFlight.save();
         return res.status(201).send({ 
@@ -62,25 +50,14 @@ const updateFlight = async (req, res) => {
             townTo,
             dateOut,
             dateIn,
-            airlineId,
-            planeId
+            airline,
+            price,
+            count
         } = req.body;
-        const airline = await Airlines.findById(airlineId);
-        const plane = await Planes.findById(planeId);
-        if (!name || !townFrom || !townTo || !dateOut || !dateIn || !airlineId || !planeId) {
+        if (!name || !townFrom || !townTo || !dateOut || !dateIn || !airline || !price || !count) {
             return res.status(400).send({
                 message: "Please fill in all fields."
             });
-        }
-        if (!airline) {
-            return res.status(400).send({
-                message: "This airline does not exist."
-            });   
-        }
-        if (!plane) {
-            return res.status(400).send({
-                message: "This plane does not exist."
-            });   
         }
         await Flights.findOneAndUpdate({_id: req.params.id}, {
             name,
@@ -89,7 +66,8 @@ const updateFlight = async (req, res) => {
             dateOut,
             dateIn,
             airline,
-            plane 
+            price, 
+            count 
         })
         return res.status(201).send({ 
             status: "success",
@@ -120,10 +98,26 @@ const deleteFlight = async (req, res) => {
     }
 }
 
+const getFlight = async (req, res) => {
+    try {
+        const flight = await Flights.findById(req.params.id);
+        return res.status(200).send({
+            status: "success",
+            flight: flight
+        });
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: "error",
+            message: "Server Error"
+        });
+    }
+}
+
 const getAllFlights = async (req, res) => {
     try {
         const countPages = Math.ceil(await Flights.countDocuments() / req.query.limit);
-        const features = new APIfeatures(Flights.find().populate("airline").populate("plane"), req.query).filtering().sorting().paginating();
+        const features = new APIfeatures(Flights.find(), req.query).filtering().sorting().paginating();
         const flights = await features.data;
         return res.status(200).send({
             status: "success",
@@ -140,9 +134,39 @@ const getAllFlights = async (req, res) => {
     }
 }
 
+const searchFlights = async (req, res) => {
+    try {
+        const { 
+            from,
+            to,
+            date
+        } = req.body;
+        const startDate = Date.parse(date);
+        const endDate = startDate + 24 * 60 * 60 * 1000;
+        const flights = await Flights.find({ 
+            townFrom: from,
+            townTo: to,
+            dateOut:{ $gte: startDate, $lt: endDate }
+        }).sort({dateOut: 1}); // ascending
+        return res.status(200).send({
+            status: "success",
+            flights: flights
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            status: "error",
+            message: "Server Error"
+        });
+    }
+}
+
 export {
     createFlight,
     updateFlight,
     deleteFlight,
-    getAllFlights
+    getFlight,
+    getAllFlights,
+    searchFlights
 };

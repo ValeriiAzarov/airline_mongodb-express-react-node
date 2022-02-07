@@ -18,20 +18,25 @@ const flightSchema = new mongoose.Schema({
     },
     dateOut: {
         type: Date,
-        required: true,
+        required: true
     },
     dateIn: {
         type: Date,
-        required: true,
+        required: true
     },
     airline: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Airlines",
+        type: String,
+        required: true,
+        trim: true
     },
-    plane: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Planes",
-    }
+    count: {
+        type: Number,
+        default: 0
+    },
+    price: {
+        type: Number,
+        default: 0
+    },
 }, {
     timestamps: true
 })
