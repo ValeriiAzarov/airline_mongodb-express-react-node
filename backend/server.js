@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import usersRouter from "./routes/usersRouter.js";
 import flightsRouter from "./routes/flightsRouter.js";
 import ticketsRouter from "./routes/ticketsRouter.js";
-import paymentsRouter from "./routes/paymentsRouter.js";
 import connectDB from "./config/database.js";
 
 const app = express();
@@ -23,8 +22,6 @@ app.use("/api", usersRouter);
 app.use("/api", flightsRouter);
 // tickets
 app.use("/api", ticketsRouter);
-// payments
-app.use("/api", paymentsRouter);
 
 // connection database
 connectDB();
