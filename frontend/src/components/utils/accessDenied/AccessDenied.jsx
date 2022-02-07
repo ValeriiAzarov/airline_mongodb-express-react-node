@@ -13,6 +13,6 @@ const AccessDenied = () => {
             </Row>
         </Container>
     );
-};
+}
 
 export default AccessDenied;

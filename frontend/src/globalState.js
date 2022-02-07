@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 import AuthAPI from "./api/authAPI.js";
 import UsersAPI from "./api/usersAPI.js";
-import AirlinesAPI from "./api/airlinesAPI.js";
-import PlanesAPI from "./api/planesAPI.js";
+import UserDetailsAPI from "./api/userDetailsAPI.js";
 import FlightsAPI from "./api/flightsAPI.js";
+import TicketsAPI from "./api/ticketsAPI.js";
 import axios from "axios";
 
 export const GlobalState = createContext();
@@ -26,9 +26,9 @@ export const DataProvider = ({children}) => {
         token: [token, setToken],
         authAPI: AuthAPI(token),
         usersAPI: UsersAPI(token),
-        airlinesAPI: AirlinesAPI(token),
-        planesAPI: PlanesAPI(token),
-        flightsAPI: FlightsAPI(token)
+        flightsAPI: FlightsAPI(token),
+        userDetailsAPI: UserDetailsAPI(token),
+        ticketsAPI: TicketsAPI(token)
     }
 
     return (

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { GlobalState } from "../../globalState.js";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import "../header/header.css";
@@ -20,18 +21,14 @@ const Header = () => {
         }
     };
 
-    const adminRouter = () => {
-        return (
-            <>
-                
-            </>
-        );
-    };
-
     const loggedRouter = () => {
         return (
             <>
-                <Nav.Link href="/profile">Profile</Nav.Link>
+                <Nav.Link>
+                    <Link to="/profile" style={{ color: "inherit", textDecoration: "inherit" }}>
+                        Profile
+                    </Link>
+                </Nav.Link>
                 <Nav.Link href="/" onClick={handleLogout}>Logout</Nav.Link>
             </>
         );
@@ -45,21 +42,22 @@ const Header = () => {
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse>
                     <Nav className="navbar-nav ms-auto" style={{ height: '100vh !important' }} navbarScroll>
-                        <Nav.Link href="/">Home</Nav.Link>
-                        {isAdmin && adminRouter()}
-                        {
-                            isLogged ? loggedRouter() : 
-                            <>
-                                <Nav.Link href="/login">Sign in</Nav.Link>
-                                <Nav.Link href="/register">Sign up</Nav.Link>
-                            </>
-                        }
+                        <Nav.Link>
+                            <Link to="/" style={{ color: "inherit", textDecoration: "inherit" }}>
+                                Home
+                            </Link>
+                        </Nav.Link>
+                        {isLogged ? loggedRouter() : 
+                        <>
+                            <Nav.Link href="/login">Sign in</Nav.Link>
+                            <Nav.Link href="/register">Sign up</Nav.Link>
+                        </>}
                     </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
         </>
     );
-};
+}
 
 export default Header;

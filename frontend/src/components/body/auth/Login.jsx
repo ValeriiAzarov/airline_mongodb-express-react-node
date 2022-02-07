@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { toast } from "react-toastify";
+import notification from "../../utils/notification/Notification.jsx";
 import image from "../../../images/airport.svg";
 import axios from "axios";
 
@@ -31,11 +31,7 @@ const Login = () => {
         } 
         catch (error) {
             if (error.response) {
-                toast.error(error.response.data.message, { 
-                    position: "top-right",
-                    autoClose: 15000,
-                    draggable: true
-                });
+                notification("error", error.response.data.message);
             }
         }
     }

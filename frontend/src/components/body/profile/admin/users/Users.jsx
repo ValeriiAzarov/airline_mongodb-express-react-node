@@ -12,12 +12,17 @@ import Data from "../users/Data.jsx";
 const Users = () => {
     const state = useContext(GlobalState);
     const [users] = state.usersAPI.users;
+    const [page, setPage] = state.usersAPI.page;
+    const [limit, setLimit] = state.usersAPI.limit;
+    const [countPages] = state.usersAPI.countPages;
+    const [search, setSearch] = state.usersAPI.search;
     
     const [showModalAdding, setShowModalAdding] = useState(false);
     const [showModalEditing, setShowModalEditing] = useState(false);
     const [showModalChangingRole, setShowModalChangingRole] = useState(false);
     const [showModalRemoving, setShowModalRemoving] = useState(false);
     const [showModalViewing, setShowModalViewing] = useState(false);
+
     const [currentUser, setCurrentUser] = useState(null);
 
     const toggleModalAdding = () => {
@@ -47,10 +52,6 @@ const Users = () => {
         type === "delete" ? toggleModalRemoving() : 
         toggleModalViewing();
     };
-    const [page, setPage] = state.usersAPI.page;
-    const [limit, setLimit] = state.usersAPI.limit;
-    const [countPages] = state.usersAPI.countPages;
-    const [search, setSearch] = state.usersAPI.search;
 
     return (
         <>
@@ -67,7 +68,7 @@ const Users = () => {
                         />
                     </Col>
                     <Col md={4}>
-                        <Button variant="primary" onClick={() => toggleModalAdding()}>Add a new user</Button>
+                        <Button variant="primary" onClick={() => toggleModalAdding()}>Add a new User</Button>
                     </Col>
                 </Row>
                 <Col>

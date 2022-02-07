@@ -1,21 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { GlobalState } from "../../../../../globalState.js";
-import { toast } from "react-toastify";
-import axios from "axios";
 import image from "../../../../../images/status-update.svg";
 
 const initialState = {
-    _id: "",
-    surname: "",
-    name: "",
-    email: ""
+    _id: "", surname: "", name: "", email: ""
 };
 
 const About = () => {
     const state = useContext(GlobalState);
-    const [user] = state.authAPI.user;
     const [token] = state.token;
+    const [user] = state.authAPI.user;
+    const updateUser = state.usersAPI.updateUser;
 
     const [data, setData] = useState(initialState);
 
@@ -29,30 +25,7 @@ const About = () => {
     }
 
     const handleUpdate = async () => {
-        try {
-            const result = await axios.patch(`http://localhost:5000/api/users/${data._id}`, {
-                surname: data.surname,
-                name: data.name
-            }, {
-                headers: {
-                    Authorization: token
-                }
-            });
-            toast.success(result.data.message, { 
-                position: "top-right",
-                autoClose: 15000,
-                draggable: true
-            });
-        } 
-        catch (error) {
-            if (error.response) {
-                toast.error(error.response.data.message, { 
-                    position: "top-right",
-                    autoClose: 15000,
-                    draggable: true
-                });
-            }
-        }
+        await updateUser(data);
     }
 
     return (
@@ -83,8 +56,8 @@ const About = () => {
                             </Button>
                         </Form>
                     </Col>
-                    <Col lg={8} md={6} sm={12} className="text-center">
-                        <img className="w-75" src={image} alt=""/>
+                    <Col lg={8} md={6} sm={12}>
+                        <img className="d-block mx-auto img-fluid w-75" src={image} alt=""/>
                     </Col>
                 </Row>
             </Container>

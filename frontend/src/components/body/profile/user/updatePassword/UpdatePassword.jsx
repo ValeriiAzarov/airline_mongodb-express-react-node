@@ -12,7 +12,7 @@ const initialState = {
 
 const UpdatePassword = () => {
   const state = useContext(GlobalState);
-  const [token] = state.token;
+  const updatePassword = state.usersAPI.updatePassword;
   const [data, setData] = useState(initialState);
   const {password, confPassword} = data;
 
@@ -21,31 +21,8 @@ const UpdatePassword = () => {
     setData({...data, [name]: value});
   }
 
-  const updatePassword = async () => {
-    try {
-      const result = await axios.post("http://localhost:5000/api/users/reset", {
-        password, 
-        confPassword
-      }, {
-        headers: {
-          Authorization: token
-        }
-      });
-      toast.success(result.data.message, { 
-        position: "top-right",
-        autoClose: 15000,
-        draggable: true
-      });
-    } 
-    catch (error) {
-      if (error.response) {
-        toast.error(error.response.data.message, { 
-          position: "top-right",
-          autoClose: 15000,
-          draggable: true
-        });
-      }
-    }
+  const changePassword = async () => {
+    await updatePassword(password, confPassword);
   }
 
   return (
@@ -63,7 +40,7 @@ const UpdatePassword = () => {
                 <Form.Label>Confirm password:</Form.Label>
                 <Form.Control type="password" placeholder="Enter confirm password" name="confPassword" id="confPassword" value={confPassword} onChange={handleChangeInput} />
               </Form.Group>
-              <Button variant="primary btn-block" onClick={updatePassword}>
+              <Button variant="primary btn-block" onClick={changePassword}>
                 Update
               </Button>
             </Form>

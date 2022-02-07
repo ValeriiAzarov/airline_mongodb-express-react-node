@@ -1,51 +1,24 @@
 import React, { useState, useContext, useEffect } from "react";
 import { GlobalState } from "../../../../../../globalState.js";
 import { Modal, Button } from "react-bootstrap";
-import { toast } from "react-toastify";
-import axios from "axios";
-
-const initialState = {
-    _id: 0
-}
 
 const RemovingFlightModal = (props) => {
     const state = useContext(GlobalState);
-    const [token] = state.token;
-
-    const [data, setData] = useState(initialState);
+    const deleteFlight = state.flightsAPI.deleteFlight;
     const [callback, setCallback] = state.flightsAPI.callback;
-    const {_id} = data;
-
+    
+    const [data, setData] = useState({});
+       
     useEffect(() => {
         if (props.flight) {
             setData(props.flight);
         }
-    }, [props.flight, token, callback]);
+    }, [props.flight]);
 
     const handleDeleteFlight = async () => {
-        try {
-            const result = await axios.delete(`http://localhost:5000/api/flights/${props.flight._id}`, {
-                headers: {
-                    Authorization: token
-                }
-            });
-            toast.success(result.data.message, { 
-                position: "top-right",
-                autoClose: 15000,
-                draggable: true
-            });
-            setCallback(!callback);
-            closeModal();        
-        } 
-        catch (error) {
-            if (error.response) {
-                toast.error(error.response.data.message, { 
-                    position: "top-right",
-                    autoClose: 15000,
-                    draggable: true
-                });
-            }
-        }
+        await deleteFlight(data);
+        setCallback(!callback);
+        closeModal();        
     }
 
     const closeModal = ()=> {
@@ -56,14 +29,14 @@ const RemovingFlightModal = (props) => {
         <>
             <Modal centered show={props.show}>
                 <Modal.Header closeButton onClick={props.handleClose} >
-                    <Modal.Title>Delete flight</Modal.Title>
+                    <Modal.Title>Delete Flight</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Are you sure you want to delete this flight ID: {_id}?</p>
+                    <p>Are you sure you want to delete this flight ID: {data._id}?</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={props.handleClose}>Cancel</Button>
-                    <Button variant="primary" onClick={handleDeleteFlight}>Delete flight</Button>
+                    <Button variant="primary" onClick={handleDeleteFlight}>Delete Flight</Button>
                 </Modal.Footer>
             </Modal>
         </>

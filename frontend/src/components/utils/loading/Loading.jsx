@@ -7,6 +7,6 @@ const Loading = () => {
             <Spinner animation="border"/>
         </>
     );
-};
+}
 
 export default Loading;

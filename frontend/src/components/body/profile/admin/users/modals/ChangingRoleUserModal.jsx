@@ -1,22 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import { GlobalState } from "../../../../../../globalState.js";
 import { Modal, Form, Button } from "react-bootstrap";
-import { toast } from "react-toastify";
-import axios from "axios";
-
-const initialState = {
-    name: "",
-    email: ""
-}
 
 const ChangingRoleUserModal = (props) => {
     const state = useContext(GlobalState);
-    const [token] = state.token;
     const [isAdmin] = state.authAPI.isAdmin;
-
-    const [data, setData] = useState(initialState);
-    const [checkAdmin, setCheckAdmin] = useState(false);
+    const updateRole = state.usersAPI.updateRole;
     const [callback, setCallback] = state.usersAPI.callback;
+
+    const [data, setData] = useState({});
+    const [checkAdmin, setCheckAdmin] = useState(false);
     const [number, setNumber] = useState(0);
 
     useEffect(() => {
@@ -24,40 +17,18 @@ const ChangingRoleUserModal = (props) => {
             setData(props.user);
             setCheckAdmin(props.user.role === 1 ? true : false);
         }
-    }, [props.user, token, isAdmin, callback]);
+    }, [props.user, isAdmin]);
 
     const handleChangeChecked = () => {
         setCheckAdmin(!checkAdmin);
         setNumber(number + 1);
     }
 
-    const handleAddUser = async () => {
-        try {
-            const result = await axios.patch(`http://localhost:5000/api/users/update_role/${props.user._id}`, { 
-                role: checkAdmin ? 1 : 0
-            }, {
-                headers: {
-                    Authorization: token
-                }
-            });
-            toast.success(result.data.message, { 
-                position: "top-right",
-                autoClose: 15000,
-                draggable: true
-            });
-            setNumber(0);
-            setCallback(!callback);
-            closeModal();
-        } 
-        catch (error) {
-            if (error.response) {
-                toast.error(error.response.data.message, { 
-                    position: "top-right",
-                    autoClose: 15000,
-                    draggable: true
-                });
-            }
-        }
+    const changeRole = async () => {
+        await updateRole(data, checkAdmin ? 1 : 0);
+        setNumber(0);
+        setCallback(!callback);
+        closeModal();
     }
 
     const closeModal = ()=> {
@@ -89,7 +60,7 @@ const ChangingRoleUserModal = (props) => {
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={props.handleClose}>Cancel</Button>
-                    <Button variant="primary" onClick={handleAddUser}>Save role</Button>
+                    <Button variant="primary" onClick={changeRole}>Save</Button>
                 </Modal.Footer>
             </Modal>
         </>

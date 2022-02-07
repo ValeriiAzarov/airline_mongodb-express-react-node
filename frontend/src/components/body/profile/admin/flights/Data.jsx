@@ -14,8 +14,8 @@ const Data = (props) => {
                         <th>Departure Date/Time</th>
                         <th>Arrival Data/Time</th>
                         <th>Airline</th>
-                        <th>Seats</th>
                         <th>Price</th>
+                        <th>Seats</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -26,15 +26,9 @@ const Data = (props) => {
                         <td>{flight.townTo}</td>
                         <td>{moment(flight.dateOut).format('YYYY-MM-DD HH:mm')}</td>
                         <td>{moment(flight.dateIn).format('YYYY-MM-DD HH:mm')}</td>
-                        <td>{flight.airline.name}</td>
-                        <td>
-                            Economy: {flight.plane.countEconomyClass}<br/>
-                            Business: {flight.plane.countBusinessClass}
-                        </td>
-                        <td>
-                            Economy: {flight.plane.priceEconomyClass} €<br/>
-                            Business: {flight.plane.priceBusinessClass} €
-                        </td>
+                        <td>{flight.airline}</td>
+                        <td>{flight.price} €</td>
+                        <td>{flight.count}</td>
                         <td>
                             <Button variant="warning" onClick={() => props.showModaltype(flight, "edit")}>Edit</Button>{" "}
                             <Button variant="danger" onClick={() => props.showModaltype(flight, "delete")}>Delete</Button>

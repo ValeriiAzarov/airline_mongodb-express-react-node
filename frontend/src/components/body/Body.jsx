@@ -9,11 +9,13 @@ import ForgotPassword from "./auth/ForgotPassword.jsx";
 import ResetPassword from "./auth/ResetPassword.jsx";
 import Profile from "./profile/Profile.jsx";
 import { GlobalState } from "../../globalState.js";
+import Booking from "./booking/Booking.jsx";
+import Payments from "./booking/Payments.jsx";
+import SuccessPage from "./booking/SuccessPage.jsx";
 
 const Body = () => {
     const state = useContext(GlobalState);
     const [isLogged] = state.authAPI.isLogged;
-    const [isAdmin] = state.authAPI.isAdmin;
 
     return (
         <>
@@ -26,10 +28,12 @@ const Body = () => {
                 <Route path="/reset/:token" component={isLogged ? NotFound : ResetPassword} exact />   
 
                 <Route path="/profile" component={isLogged ? Profile : NotFound} />
-
+                <Route path="/booking" component={isLogged ? Booking : NotFound} />
+                <Route path="/payments" component={isLogged ? Payments : NotFound} />
+                <Route path="/success_page" component={isLogged ? SuccessPage : NotFound} />
             </Switch>
         </>
     );
-};
+}
 
 export default Body;

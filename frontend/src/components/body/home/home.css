@@ -1,0 +1,13 @@
+.flightItem_graph {
+    align-self: flex-end;
+    position: relative;
+    margin: 0px 16px 0px 6px;
+    padding: 9px 0px 1px 0px;
+    border-top: 2px solid black;
+    min-width: 180px;
+    text-align: center;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 15px;
+    white-space: nowrap;
+}

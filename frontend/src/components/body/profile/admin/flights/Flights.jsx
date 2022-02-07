@@ -10,10 +10,15 @@ import Data from "../flights/Data.jsx";
 const Flights = () => {
   const state = useContext(GlobalState);
   const [flights] = state.flightsAPI.flights;
+  const [page, setPage] = state.flightsAPI.page;
+  const [limit, setLimit] = state.flightsAPI.limit;
+  const [countPages] = state.flightsAPI.countPages;
+  const [search, setSearch] = state.flightsAPI.search;
 
   const [showModalAdding, setShowModalAdding] = useState(false);
   const [showModalEditing, setShowModalEditing] = useState(false);
   const [showModalRemoving, setShowModalRemoving] = useState(false);
+
   const [currentFlight, setCurrentFlight] = useState(null);
 
   const toggleModalAdding = () => {
@@ -33,11 +38,6 @@ const Flights = () => {
     type === "edit" ? toggleModalEditing() : toggleModalRemoving();
   }
 
-  const [page, setPage] = state.flightsAPI.page;
-  const [limit, setLimit] = state.flightsAPI.limit;
-  const [countPages] = state.flightsAPI.countPages;
-  const [search, setSearch] = state.flightsAPI.search;
-
   return (
     <>
       <Col>
@@ -53,7 +53,7 @@ const Flights = () => {
             />
           </Col>
           <Col md={4}>
-            <Button variant="primary" onClick={() => toggleModalAdding()}>Add a new flight</Button>
+            <Button variant="primary" onClick={() => toggleModalAdding()}>Add a new Flight</Button>
           </Col>
         </Row>
         <Col>

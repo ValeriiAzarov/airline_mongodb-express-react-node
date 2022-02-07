@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import "../auth/auth.css"
-import { toast } from "react-toastify";
+import notification from "../../utils/notification/Notification.jsx";
 import image from "../../../images/blimp-illustration.svg";
 import axios from "axios";
 
@@ -20,20 +20,12 @@ const ForgotPassword = () => {
 
     const forgotPassword = async () => {            
         try {
-            const result = await axios.post("http://localhost:5000/api/users/forgot", {email});
-            toast.success(result.data.message, { 
-                position: "top-right",
-                autoClose: 15000,
-                draggable: true
-            });
+            const result = await axios.post("http://localhost:5000/api/users/forgot", { email });
+            notification("success", result.data.message);
         } 
         catch (error) {
             if (error.response) {
-                toast.error(error.response.data.message, { 
-                    position: "top-right",
-                    autoClose: 15000,
-                    draggable: true
-                });
+                notification("error", error.response.data.message);
             }
         }
     }

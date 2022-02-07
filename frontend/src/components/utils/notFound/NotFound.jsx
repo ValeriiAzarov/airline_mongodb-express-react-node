@@ -14,6 +14,6 @@ const NotFound = () => {
             </Row>
         </Container>
     );
-};
+}
 
 export default NotFound;

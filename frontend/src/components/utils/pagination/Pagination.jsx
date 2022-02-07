@@ -83,6 +83,6 @@ const Pаgination = (props) => {
             </>
         )
     );
-};
+}
 
 export default Pаgination;
